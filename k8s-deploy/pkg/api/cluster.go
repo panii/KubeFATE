@@ -12,7 +12,6 @@
  * limitations under the License.
  *
  */
-
 package api
 
 import (
@@ -25,7 +24,6 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Cluster api of cluster
 type Cluster struct {
 }
 
@@ -44,20 +42,7 @@ func (c *Cluster) Router(r *gin.RouterGroup) {
 	}
 }
 
-// createCluster Create a new cluster
-// @Summary Create a new cluster
-// @Tags Cluster
-// @Produce  json
-// @Param  ClusterArgs body job.ClusterArgs true "Cluster Args"
-// @Success 200 {object} JSONResult{data=modules.Job} "Success"
-// @Failure 400 {object} JSONERRORResult "Bad Request"
-// @Failure 401 {object} JSONERRORResult "Unauthorized operation"
-// @Failure 500 {object} JSONERRORResult "Internal server error"
-// @Router /cluster [post]
-// @Param Authorization header string true "Authentication header"
-// @Security ApiKeyAuth
-// @Security OAuth2Application[write, admin]
-func (*Cluster) createCluster(c *gin.Context) {
+func (_ *Cluster) createCluster(c *gin.Context) {
 
 	user, _ := c.Get(identityKey)
 
@@ -81,20 +66,7 @@ func (*Cluster) createCluster(c *gin.Context) {
 	c.JSON(200, gin.H{"msg": "createCluster success", "data": j})
 }
 
-// setCluster Updates a cluster in the store with form data
-// @Summary Updates a cluster in the store with form data
-// @Tags Cluster
-// @Produce  json
-// @Param  ClusterArgs body job.ClusterArgs true "Cluster Args"
-// @Success 200 {object} JSONResult{data=modules.Job} "Success"
-// @Failure 400 {object} JSONERRORResult "Bad Request"
-// @Failure 401 {object} JSONERRORResult "Unauthorized operation"
-// @Failure 500 {object} JSONERRORResult "Internal server error"
-// @Router /cluster [put]
-// @Param Authorization header string true "Authentication header"
-// @Security ApiKeyAuth
-// @Security OAuth2Application[write, admin]
-func (*Cluster) setCluster(c *gin.Context) {
+func (_ *Cluster) setCluster(c *gin.Context) {
 
 	//cluster := new(db.Cluster)
 	//if err := c.ShouldBindJSON(&cluster); err != nil {
@@ -124,32 +96,19 @@ func (*Cluster) setCluster(c *gin.Context) {
 	c.JSON(200, gin.H{"msg": "setCluster success", "data": j})
 }
 
-// getCluster create a Cluster
-// @Summary create Cluster
-// @Tags Cluster
-// @Produce  json
-// @Param   clusterId   path  string  true  "cluster Id"
-// @Success 200 {object} JSONResult{data=modules.Cluster} "Success"
-// @Failure 400 {object} JSONERRORResult "Bad Request"
-// @Failure 401 {object} JSONERRORResult "Unauthorized operation"
-// @Failure 500 {object} JSONERRORResult "Internal server error"
-// @Router /cluster/{clusterId} [get]
-// @Param Authorization header string true "Authentication header"
-// @Security ApiKeyAuth
-// @Security OAuth2Application[write, admin]
-func (*Cluster) getCluster(c *gin.Context) {
+func (_ *Cluster) getCluster(c *gin.Context) {
 
-	clusterID := c.Param("clusterId")
-	if clusterID == "" {
+	clusterId := c.Param("clusterId")
+	if clusterId == "" {
 		log.Error().Err(errors.New("not exit clusterId")).Msg("request error")
 		c.JSON(400, gin.H{"error": "not exit clusterId"})
 		return
 	}
 
-	hc := modules.Cluster{Uuid: clusterID}
+	hc := modules.Cluster{Uuid: clusterId}
 	cluster, err := hc.Get()
 	if err != nil {
-		log.Error().Err(err).Str("uuid", clusterID).Msg("get cluster error")
+		log.Error().Err(err).Str("uuid", clusterId).Msg("get cluster error")
 		c.JSON(500, gin.H{"error": err.Error()})
 		return
 	}
@@ -192,20 +151,7 @@ func (*Cluster) getCluster(c *gin.Context) {
 	c.JSON(200, gin.H{"msg": "getCluster success", "data": &cluster})
 }
 
-// getClusterList List all available clusters
-// @Summary List all available clusters
-// @Tags Cluster
-// @Produce  json
-// @Param   all     query    boolean      true        "get All cluster"
-// @Success 200 {object} JSONResult{data=[]modules.Cluster} "Success"
-// @Failure 400 {object} JSONERRORResult "Bad Request"
-// @Failure 401 {object} JSONERRORResult "Unauthorized operation"
-// @Failure 500 {object} JSONERRORResult "Internal server error"
-// @Router /cluster/ [get]
-// @Param Authorization header string true "Authentication header"
-// @Security ApiKeyAuth
-// @Security OAuth2Application[write, admin]
-func (*Cluster) getClusterList(c *gin.Context) {
+func (_ *Cluster) getClusterList(c *gin.Context) {
 
 	all := false
 	qall := c.Query("all")
@@ -226,30 +172,17 @@ func (*Cluster) getClusterList(c *gin.Context) {
 	c.JSON(200, gin.H{"msg": "getClusterList success", "data": clusterList})
 }
 
-// deleteCluster Delete a cluster
-// @Summary Delete a cluster
-// @Tags Cluster
-// @Produce  json
-// @Param   clusterId   path  string  true  "cluster Id"
-// @Success 200 {object} JSONResult{data=modules.Job} "Success"
-// @Failure 400 {object} JSONERRORResult "Bad Request"
-// @Failure 401 {object} JSONERRORResult "Unauthorized operation"
-// @Failure 500 {object} JSONERRORResult "Internal server error"
-// @Router /cluster/{clusterId} [delete]
-// @Param Authorization header string true "Authentication header"
-// @Security ApiKeyAuth
-// @Security OAuth2Application[write, admin]
-func (*Cluster) deleteCluster(c *gin.Context) {
+func (_ *Cluster) deleteCluster(c *gin.Context) {
 
 	user, _ := c.Get(identityKey)
 
-	clusterID := c.Param("clusterId")
-	if clusterID == "" {
+	clusterId := c.Param("clusterId")
+	if clusterId == "" {
 		log.Error().Err(errors.New("not exit clusterId")).Msg("request error")
 		c.JSON(400, gin.H{"error": "not exit clusterId"})
 	}
 
-	j, err := job.ClusterDelete(clusterID, user.(*User).Username)
+	j, err := job.ClusterDelete(clusterId, user.(*User).Username)
 	if err != nil {
 		log.Error().Err(err).Msg("request error")
 		c.JSON(500, gin.H{"error": err.Error()})

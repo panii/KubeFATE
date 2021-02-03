@@ -12,22 +12,14 @@
  * limitations under the License.
  *
  */
-
 package api
 
 import (
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
-
-	// swag API
-	_ "github.com/FederatedAI/KubeFATE/k8s-deploy/docs"
 )
 
-// APIVersion API version
-const APIVersion string = "v1"
+const ApiVersion = "v1"
 
-// Router of API
 func Router(r *gin.Engine) {
 
 	r.GET("/", func(c *gin.Context) {
@@ -41,8 +33,6 @@ func Router(r *gin.Engine) {
 		v1.GET("/", func(c *gin.Context) {
 			c.JSON(400, gin.H{"error": "error path"})
 		})
-
-		v1.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 		cluster := new(Cluster)
 		cluster.Router(v1)

@@ -156,7 +156,7 @@ func ChartCreateCommand() *cli.Command {
 			}
 
 			serviceUrl := viper.GetString("serviceurl")
-			apiVersion := api.APIVersion + "/"
+			apiVersion := api.ApiVersion + "/"
 			if serviceUrl == "" {
 				serviceUrl = "localhost:8080/"
 			}

@@ -21,11 +21,9 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-// Namespace API struct
 type Namespace struct {
 }
 
-// Router of Namespace API
 func (j *Namespace) Router(r *gin.RouterGroup) {
 
 	authMiddleware, _ := GetAuthMiddleware()
@@ -36,18 +34,7 @@ func (j *Namespace) Router(r *gin.RouterGroup) {
 	}
 }
 
-// getNamespaceList Get Namespace List of Kubernetes
-// @Summary Get Namespace List of Kubernetes
-// @Tags Namespace
-// @Produce  json
-// @Success 200 {object} JSONResult{data=modules.Namespace} "Success"
-// @Failure 400 {object} JSONERRORResult "Bad Request"
-// @Failure 401 {object} JSONERRORResult "Unauthorized operation"
-// @Failure 500 {object} JSONERRORResult "Internal server error"
-// @Router /namespace/ [get]
-// @Param Authorization header string true "Authentication header"
-// @Security ApiKeyAuth
-func (*Namespace) getNamespaceList(c *gin.Context) {
+func (_ *Namespace) getNamespaceList(c *gin.Context) {
 
 	namespace := new(modules.Namespace)
 	namespaceList, err := namespace.GetList()
