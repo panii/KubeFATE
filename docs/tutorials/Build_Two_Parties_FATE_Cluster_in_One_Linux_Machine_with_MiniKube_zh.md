@@ -74,7 +74,8 @@ kubeconfig: Configured
 如果你的显示和上面一样，那恭喜你，一个单节点的Kubernetes已经部署好在你的服务器里了！但是，还有一个小步骤要做，因为我们KubeFATE通过Ingress向外提供服务，而MiniKube默认并没有启动Ingress模块，所以需要手动启动，
 
 ```
-sudo minikube addons enable ingress
+sudo minikube addons enable ingress --alsologtostderr 等待
+kubectl get po -A 查看到 nginx-ingress-controller-6fc5bcc8c9-2l5vv 是Running则成功, 如果是ContainerCreating则重启systemctl restart docker
 ```
 到此，我们的Kubernetes也准备好了。
 
