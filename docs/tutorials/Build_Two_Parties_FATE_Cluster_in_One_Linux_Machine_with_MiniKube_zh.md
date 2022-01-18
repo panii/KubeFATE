@@ -133,31 +133,51 @@ sed 's/registry: ""/registry: "hub.c.163.com\/federatedai"/g' cluster.yaml > clu
 
 相关的yaml文件也已经准备在工作目录，直接使用`kubectl apply`，
 ```
-kubectl apply -f ./kubefate_163.yaml
+执行 kubectl apply -f ./kubefate_163.yaml
+
+报错
+deployment.apps/kubefate configured
+deployment.apps/mariadb configured
+service/mariadb unchanged
+service/kubefate unchanged
+Error from server (InternalError): error when creating "./kubefate_163.yaml": Internal error occurred: failed calling webhook "validate.nginx.ingress.kubernetes.io": Post "https://ingress-nginx-controller-admission.ingress-nginx.svc:443/networking/v1/ingresses?timeout=10s": dial tcp 10.103.190.88:443: connect: connection refused
+
+执行 kubectl delete namespace ingress-nginx
+namespace "ingress-nginx" deleted
+执行 kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission
+validatingwebhookconfiguration.admissionregistration.k8s.io "ingress-nginx-admission" deleted
+
+再次执行 kubectl apply -f ./kubefate_163.yaml
+终于成功
+deployment.apps/kubefate configured
+deployment.apps/mariadb configured
+service/mariadb unchanged
+service/kubefate unchanged
+ingress.networking.k8s.io/kubefate created
 ```
 
 稍等一会，大概10几秒后用下面命令看下KubeFATE服务是否部署好`kubectl get all,ingress -n kube-fate`。如果返回类似下面的信息（特别是pod的STATUS显示的是Running状态），则KubeFATE的服务就已经部署好并正常运行：
 ```
 
 kubefate@machine:~/demo$ kubectl get all,ingress -n kube-fate
-NAME                            READY   STATUS    RESTARTS   AGE
-pod/kubefate-5d97d65947-7hb2q   1/1     Running   0          51s
-pod/mariadb-69484f8465-44dlw    1/1     Running   0          51s
+NAME                            READY   STATUS    RESTARTS      AGE
+pod/kubefate-554478c796-qw8qx   1/1     Running   7 (15m ago)   4h15m
+pod/mariadb-86c6479545-c87j9    1/1     Running   4 (15m ago)   4h15m
 
-NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
-service/kubefate   ClusterIP   192.168.0.111   <none>        8080/TCP   50s
-service/mariadb    ClusterIP   192.168.0.112   <none>        3306/TCP   50s
+NAME               TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+service/kubefate   ClusterIP   10.101.206.211   <none>        8080/TCP   4h15m
+service/mariadb    ClusterIP   10.103.194.59    <none>        3306/TCP   4h15m
 
 NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
-deployment.apps/kubefate   1/1     1            1           51s
-deployment.apps/mariadb    1/1     1            1           51s
+deployment.apps/kubefate   1/1     1            1           4h15m
+deployment.apps/mariadb    1/1     1            1           4h15m
 
 NAME                                  DESIRED   CURRENT   READY   AGE
-replicaset.apps/kubefate-5d97d65947   1         1         1       51s
-replicaset.apps/mariadb-69484f8465    1         1         1       51s
+replicaset.apps/kubefate-554478c796   1         1         1       4h15m
+replicaset.apps/mariadb-86c6479545    1         1         1       4h15m
 
-NAME                          HOSTS          ADDRESS          PORTS   AGE
-ingress.extensions/kubefate   kubefate.net   192.168.100.123   80      50s
+NAME                                 CLASS    HOSTS          ADDRESS   PORTS   AGE
+ingress.networking.k8s.io/kubefate   <none>   kubefate.net             80      18s
 ```
 
 ### 添加kubefate.net到hosts文件
