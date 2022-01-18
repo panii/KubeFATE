@@ -44,7 +44,7 @@ The connection to the server localhost:8080 was refused - did you specify the ri
 ```
 ### 安装MiniKube
 ```
-curl -LO http://x.x.x.x:8384/minikube-linux-amd64 && mv minikube-linux-amd64 minikube && chmod +x minikube && sudo mv ./minikube /usr/bin && mv minikube-linux-amd64 minikube && chmod +x minikube && sudo mv ./minikube /usr/bin
+curl -LO http://x.x.x.x:8384/minikube-linux-amd64 && mv minikube-linux-amd64 minikube && chmod +x minikube && sudo mv ./minikube /usr/bin
 ```
 验证安装结果:
 ```
