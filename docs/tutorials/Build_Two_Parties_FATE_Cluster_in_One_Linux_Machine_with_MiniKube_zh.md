@@ -17,7 +17,7 @@
 5. 要保证安装机器可以正常访问Docker Hub或者网易云镜像仓库，以及Google存储； 
 6. 预先创建一个目录，以便整个过程使用该目录作为工作目录，命令如下：
 ```
-export version=v1.6.0 && export kubefate_version=v1.4.1 && cd ~ && mkdir demo && cd demo
+export version=v1.7.1 && export kubefate_version=v1.4.2 && cd ~ && mkdir demo && cd demo
 ```
 
 **注意：下文介绍的MiniKube机器IP地址是192.168.100.123。请修改为你准备的实验机器IP地址！！！**
@@ -28,9 +28,9 @@ export version=v1.6.0 && export kubefate_version=v1.4.1 && cd ~ && mkdir demo &&
 1. MiniKube: v1.24.0
 2. kubectl: v1.23.1
 3. kubefate:
-	* 发布版本: v1.6.0
-	* 服务版本: v1.4.1
-	* 命令行版本: v1.4.1
+	* 发布版本: v1.7.1
+	* 服务版本: v1.4.2
+	* 命令行版本: v1.4.2
 
 ### 安装kubectl
 ```
@@ -79,8 +79,8 @@ kubectl get po -A 查看到 nginx-ingress-controller-6fc5bcc8c9-2l5vv 是Running
 ```
 到此，我们的Kubernetes也准备好了。
 
-### 下载KubeFATE的发布包, KubeFATE服务镜像v1.4.1，并安装KubeFATE的命令行
-我们从Github上 [KubeFATE Release](https://github.com/FederatedAI/KubeFATE/releases)页面找到Kuberetes部署的下载包，并下载对应版本，如前面环境变量设置`v1.6.0`，
+### 下载KubeFATE的发布包, KubeFATE服务镜像v1.7.1，并安装KubeFATE的命令行
+我们从Github上 [KubeFATE Release](https://github.com/FederatedAI/KubeFATE/releases)页面找到Kuberetes部署的下载包，并下载对应版本，如前面环境变量设置`v1.7.1`，
 ```
 curl -LO https://github.com/FederatedAI/KubeFATE/releases/download/${version}/kubefate-k8s-${version}.tar.gz && tar -xzf ./kubefate-k8s-${version}.tar.gz
 ```
@@ -97,11 +97,11 @@ chmod +x ./kubefate && sudo mv ./kubefate /usr/bin
 ```
 kubefate@machine:~/demo$ kubefate version
 * kubefate service connection error, Post http://kubefate.net/v1/user/login: dial tcp: lookup kubefate.net: no such host
-* kubefate commandLine version=v1.4.1
+* kubefate commandLine version=v1.4.2
 ```
 我们发现获取KubeFATE服务版本报了个错，这是因为我们还没部署KubeFATE的服务；而命令行的版本已经正常显示出来了。
 
-接着，我们下载KubeFATE服务镜像v1.4.1, 其中release_version在本片教程的里是```v1.6.0```,kubefate_version是```v1.4.1```
+接着，我们下载KubeFATE服务镜像v1.4.2, 其中release_version在本片教程的里是```v1.6.1```,kubefate_version是```v1.4.2```
 ```
 curl -LO https://github.com/FederatedAI/KubeFATE/releases/download/${release_version}/kubefate-${kubefate_version}.docker
 ```
