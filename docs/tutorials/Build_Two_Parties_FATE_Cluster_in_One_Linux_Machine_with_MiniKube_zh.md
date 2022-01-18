@@ -34,22 +34,22 @@ export version=v1.6.0 && export kubefate_version=v1.4.1 && cd ~ && mkdir demo &&
 
 ### 安装kubectl
 ```
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.17.3/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/bin
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.19.3/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/bin
 ```
 执行完后可以验证是否成功,
 ```
 kubefate@machine:~/demo$ kubectl version
-Client Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.17.3", GitCommit:"06ad960bfd03b39c8310aaf92d1e7c12ce618213", GitTreeState:"clean", BuildDate:"2020-02-11T18:14:22Z", GoVersion:"go1.13.6", Compiler:"gc", Platform:"linux/amd64"}
+Client Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.19.3", GitCommit:"06ad960bfd03b39c8310aaf92d1e7c12ce618213", GitTreeState:"clean", BuildDate:"2020-02-11T18:14:22Z", GoVersion:"go1.13.6", Compiler:"gc", Platform:"linux/amd64"}
 The connection to the server localhost:8080 was refused - did you specify the right host or port?
 ```
 ### 安装MiniKube
 ```
-curl -LO https://github.com/kubernetes/minikube/releases/download/v1.7.3/minikube-linux-amd64 && mv minikube-linux-amd64 minikube && chmod +x minikube && sudo mv ./minikube /usr/bin
+curl -LO http://x.x.x.x:8384/minikube-linux-amd64 && mv minikube-linux-amd64 minikube && chmod +x minikube && sudo mv ./minikube /usr/bin && mv minikube-linux-amd64 minikube && chmod +x minikube && sudo mv ./minikube /usr/bin
 ```
 验证安装结果:
 ```
 kubefate@machine:~/demo$ minikube version
-minikube version: v1.7.3
+minikube version: v1.24.0
 commit: 436667c819c324e35d7e839f8116b968a2d0a3ff
 ```
 
