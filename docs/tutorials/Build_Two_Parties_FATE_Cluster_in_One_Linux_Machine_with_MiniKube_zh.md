@@ -25,8 +25,8 @@ export version=v1.6.0 && export kubefate_version=v1.4.1 && cd ~ && mkdir demo &&
 # 开始安装
 ## 安装需要的工具
 为了使用KubeFATE部署FATE，我们需要以下工具：
-1. MiniKube: v1.7.3
-2. kubectl: v1.17.3
+1. MiniKube: v1.24.0
+2. kubectl: v1.23.1
 3. kubefate:
 	* 发布版本: v1.6.0
 	* 服务版本: v1.4.1
@@ -34,12 +34,12 @@ export version=v1.6.0 && export kubefate_version=v1.4.1 && cd ~ && mkdir demo &&
 
 ### 安装kubectl
 ```
-curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.19.3/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/bin
+curl -LO https://storage.googleapis.com/kubernetes-release/release/v1.23.1/bin/linux/amd64/kubectl && chmod +x ./kubectl && sudo mv ./kubectl /usr/bin
 ```
 执行完后可以验证是否成功,
 ```
 kubefate@machine:~/demo$ kubectl version
-Client Version: version.Info{Major:"1", Minor:"17", GitVersion:"v1.19.3", GitCommit:"06ad960bfd03b39c8310aaf92d1e7c12ce618213", GitTreeState:"clean", BuildDate:"2020-02-11T18:14:22Z", GoVersion:"go1.13.6", Compiler:"gc", Platform:"linux/amd64"}
+Client Version: version.Info{Major:"1", Minor:"23", GitVersion:"v1.23.1", GitCommit:"86ec240af8cbd1b60bcc4c03c20da9b98005b92e", GitTreeState:"clean", BuildDate:"2021-12-16T11:41:01Z", GoVersion:"go1.17.5", Compiler:"gc", Platform:"linux/amd64"}
 The connection to the server localhost:8080 was refused - did you specify the right host or port?
 ```
 ### 安装MiniKube
@@ -56,7 +56,7 @@ commit: 436667c819c324e35d7e839f8116b968a2d0a3ff
 ### 使用MiniKube安装Kubernetes
 MiniKube支持使用不同的虚拟机来部署Kubernetes，但是在Linux环境下，我们建议直接使用Docker方式。这个方式非常简单，只需要设置--vm-driver=none即可。更多的说明参考：[Install MiniKube - Install a Hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 ```
-sudo minikube start --vm-driver=none --image-mirror-country='cn'
+sudo minikube start --vm-driver=none --image-mirror-country='cn' --kubernetes-version=v1.22.3
 ```
 根据屏幕指引，稍等一小会。接着我们要重新定位安装好的kubectl或者minikube。
 ```
