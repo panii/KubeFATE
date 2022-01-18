@@ -56,7 +56,7 @@ commit: 436667c819c324e35d7e839f8116b968a2d0a3ff
 ### 使用MiniKube安装Kubernetes
 MiniKube支持使用不同的虚拟机来部署Kubernetes，但是在Linux环境下，我们建议直接使用Docker方式。这个方式非常简单，只需要设置--vm-driver=none即可。更多的说明参考：[Install MiniKube - Install a Hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 ```
-sudo minikube start --vm-driver=none
+sudo minikube start --vm-driver=none --image-mirror-country='cn'
 ```
 根据屏幕指引，稍等一小会。接着我们要重新定位安装好的kubectl或者minikube。
 ```
