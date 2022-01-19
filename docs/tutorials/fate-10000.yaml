@@ -1,0 +1,182 @@
+name: fate-10000
+namespace: fate-10000
+chartName: fate
+chartVersion: v1.7.1
+partyId: 10000
+registry: "hub.c.163.com/federatedai"
+imageTag: ""
+pullPolicy: 
+imagePullSecrets: 
+- name: myregistrykey
+persistence: false
+istio:
+  enabled: false
+podSecurityPolicy:
+  enabled: false
+modules:
+  - rollsite
+  - clustermanager
+  - nodemanager
+  - mysql
+  - python
+  - fateboard
+  - client
+  
+  
+# backend could be eggroll, spark_rabbitmq and spark_pulsar spark_local_pulsar
+backend: eggroll
+
+rollsite: 
+  type: NodePort
+  nodePort: 30101
+  partyList:
+  - partyId: 9999
+    partyIp: 192.168.8.16
+    partyPort: 30091
+
+# Specify domain name for service
+ingress:
+  fateboard: 
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+    hosts:
+    - name: 10000.fateboard.kubefate.net
+  client:  
+    annotations:
+      kubernetes.io/ingress.class: "nginx"
+    hosts:
+    - name: 10000.notebook.kubefate.net
+  # spark:  
+    # annotations:
+      # kubernetes.io/ingress.class: "nginx"
+    # hosts:
+    # - name: party9999.spark.example.com
+  # rabbitmq:  
+    # annotations:
+      # kubernetes.io/ingress.class: "nginx"
+    # hosts:
+    # - name: party9999.rabbitmq.example.com
+  # pulsar:  
+    # annotations:
+      # kubernetes.io/ingress.class: "nginx"
+    # hosts:
+    # - name: party9999.pulsar.example.com
+  
+# Specify rollsite properties
+# rollsite: 
+  # type: NodePort
+  # nodePort: 30091
+  # exchange:
+    # ip: 192.168.0.1
+    # port: 30000
+  # partyList:
+  # - partyId: 10000
+    # partyIp: 192.168.0.1
+    # partyPort: 30101
+  # nodeSelector: 
+
+# Specify nodemanager properties
+# nodemanager:
+  # count: 3
+  # sessionProcessorsPerNode: 4
+  # storageClass: "nodemanagers"
+  # accessMode: ReadWriteOnce
+  # size: 2Gi
+  # list:
+  # - name: nodemanager
+    # nodeSelector: 
+    # sessionProcessorsPerNode: 4
+    # subPath: "nodemanager"
+    # existingClaim: ""
+    # storageClass: "nodemanager"
+    # accessMode: ReadWriteOnce
+    # size: 1Gi
+
+# Specify the fateflow service's properties
+python:
+  type: NodePort
+  httpNodePort: 30107
+  grpcNodePort: 30102
+# python:
+  # type: NodePort
+  # httpNodePort: 30097
+  # grpcNodePort: 30092
+  # serviceAccountName: ""
+  # nodeSelector:
+  # tolerations:
+  # affinity:
+  # enabledNN: false
+  # existingClaim: ""
+  # storageClass: "python"
+  # accessMode: ReadWriteMany
+  # size: 1Gi
+  # clustermanager:
+    # cores_per_node: 16
+    # nodes: 2
+  # spark: 
+    # cores_per_node: 20
+    # nodes: 2
+    # master: spark://spark-master:7077
+    # driverHost: 
+    # driverHostType: 
+    # portMaxRetries: 
+    # driverStartPort: 
+    # blockManagerStartPort: 
+    # pysparkPython: 
+  # hdfs:
+    # name_node: hdfs://namenode:9000
+    # path_prefix:
+  # rabbitmq:
+    # host: rabbitmq
+    # mng_port: 15672
+    # port: 5672
+    # user: fate
+    # password: fate
+  # pulsar:
+    # host: pulsar
+    # mng_port: 8080
+    # port: 6650
+  # nginx:
+    # host: nginx
+    # http_port: 9300
+    # grpc_port: 9310
+
+ # Specify the fateboard service's properties
+# fateboard: 
+  # type: ClusterIP
+  # username: admin
+  # password: admin
+
+ # Specify the client service's properties
+# client:
+  # nodeSelector: 
+  # subPath: ""
+  # existingClaim: ""
+  # storageClass: "client"
+  # accessMode: ReadWriteOnce
+  # size: 1Gi
+
+# Specify the mysql properties
+# mysql: 
+  # nodeSelector: 
+  # ip: mysql
+  # port: 3306
+  # database: eggroll_meta
+  # user: fate
+  # password: fate_dev
+  # subPath: ""
+  # existingClaim: ""
+  # storageClass: "mysql"
+  # accessMode: ReadWriteOnce
+  # size: 1Gi
+
+# #
+# #externalMysqlIp: mysql
+# #externalMysqlPort: 3306
+# #externalMysqlDatabase: eggroll_meta
+# #externalMysqlUser: fate
+# #externalMysqlPassword: fate_dev
+
+# Specify serving configuration
+# servingIp: 192.168.0.1
+# servingPort: 30095
