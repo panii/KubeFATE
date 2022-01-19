@@ -57,11 +57,13 @@ commit: 436667c819c324e35d7e839f8116b968a2d0a3ff
 MiniKube支持使用不同的虚拟机来部署Kubernetes，但是在Linux环境下，我们建议直接使用Docker方式。这个方式非常简单，只需要设置--vm-driver=none即可。更多的说明参考：[Install MiniKube - Install a Hypervisor](https://kubernetes.io/docs/tasks/tools/install-minikube/#install-a-hypervisor).
 ```
 先添加代理 vi /etc/hosts
+追加
 代理机ip    k8s.gcr.io
 
 代理机的设置 ./proxy -listen-left 443 -connect-right 64.233.189.82:443 -dump size
 
-sudo minikube start --vm-driver=none --kubernetes-version=v1.22.3
+minikube delete # 之前重试过n次装不上, 先清空旧数据. 千万不用cn的image, 用代理装国外的才成功
+minikube start --vm-driver=none --kubernetes-version=v1.22.3
 ```
 根据屏幕指引，稍等一小会。接着我们要重新定位安装好的kubectl或者minikube。
 ```
